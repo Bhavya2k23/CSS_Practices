@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore - Our Collection</title>
+    <style>
+        /* CSS Variables for Theme */
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3f7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --border-radius: 0.25rem;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            padding: 0;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: var(--box-shadow);
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Lists */
+        ul {
+            list-style-type: none;
+            margin: 1.5rem 0;
+        }
+
+        ul li {
+            padding: 0.5rem 0;
+        }
+
+        /* Sections */
+        section {
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            align-items: center;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1rem 0;
+        }
+
+        /* Book Cards */
+        .book-card {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.15);
+        }
+
+        .book-cover {
+            flex: 0 0 100px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--success);
+            font-size: 1.1rem;
+        }
+
+        .rating {
+            color: var(--warning);
+            font-weight: bold;
+        }
+
+        /* Offers */
+        .offers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .offer-card {
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .offer-card:hover {
+            transform: scale(1.02);
+        }
+
+        .offer-card h3 {
+            color: var(--primary);
+        }
+
+        .offer-code {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--accent);
+            color: white;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        footer a {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .book-card {
+                flex-direction: column;
+            }
+            
+            .book-cover {
+                flex: 0 0 auto;
+                width: 100%;
+                height: auto;
+                max-height: 300px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Star Rating */
+        .stars {
+            color: var(--warning);
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            align-items: center;
+        }
+
+        .category {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .category:hover {
+            background-color: var(--secondary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Bookstore</h1>
+            <p>Your one-stop shop for all your reading needs</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <h2>Featured Books</h2>
+            
+<table>
+    <tr>
+        <th>Cover</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Rating</th>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/81JJPDNlxSL.jpg" width="70px" height="100px" alt="The Silent Patient Cover"></td>
+        <td>The Silent Patient</td>
+        <td>Alex Michaelides</td>
+        <td class="price">₹1,079</td>
+        <td>A psychological thriller about a woman who shoots her husband and then stops speaking.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.2/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1568169020l/53091838.jpg" width="70px" height="100px" alt="Atomic Habits Cover"></td>
+        <td>Atomic Habits</td>
+        <td>James Clear</td>
+        <td class="price">₹1,245</td>
+        <td>Transform your life with tiny changes in behavior that lead to remarkable results.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.7/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://upload.wikimedia.org/wikipedia/en/1/1f/Educated_%28Tara_Westover%29.png" width="70px" height="100px" alt="Educated Cover"></td>
+        <td>Educated</td>
+        <td>Tara Westover</td>
+        <td class="price">₹1,121</td>
+        <td>A memoir about a woman who leaves her survivalist family and goes on to earn a PhD.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.8/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/91Q5dCjc2KL.jpg" width="70px" height="100px" alt="The Girl on the Train Cover"></td>
+        <td>The Girl on the Train</td>
+        <td>Paula Hawkins</td>
+        <td class="price">₹913</td>
+        <td>A psychological thriller about a woman who becomes entangled in a missing persons investigation.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.1/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/713HP+eMeWL._UF1000,1000_QL80_.jpg" width="70px" height="100px" alt="Where the Crawdads Sing Cover"></td>
+        <td>Where the Crawdads Sing</td>
+        <td>Delia Owens</td>
+        <td class="price">₹830</td>
+        <td>A murder mystery and coming-of-age story set in the marshes of North Carolina.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.8/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1546071216i/5907.jpg" width="70px" height="100px" alt="The Hobbit Cover"></td>
+        <td>The Hobbit</td>
+        <td>J.R.R. Tolkien</td>
+        <td class="price">₹1,245</td>
+        <td>A fantasy adventure about Bilbo Baggins' quest to win a share of a dragon's treasure.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.7/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/81ZBJ2Q0pYL._UF1000,1000_QL80_.jpg" width="70px" height="100px" alt="The Great Gatsby Cover"></td>
+        <td>The Great Gatsby</td>
+        <td>F. Scott Fitzgerald</td>
+        <td class="price">₹664</td>
+        <td>A classic novel about the mysterious millionaire Jay Gatsby and his love for Daisy Buchanan.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.3/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/71N2HZwRo3L.jpg" width="70px" height="100px" alt="Educated Cover"></td>
+        <td>Educated</td>
+        <td>Tara Westover</td>
+        <td class="price">₹1,161</td>
+        <td>A memoir about a woman who leaves her survivalist family and goes on to earn a PhD from Cambridge.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.7/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1318966691i/37819.jpg" width="70px" height="100px" alt="The God of Small Things Cover"></td>
+        <td>The God of Small Things</td>
+        <td>Arundhati Roy</td>
+        <td class="price">₹995</td>
+        <td>Booker Prize-winning novel about twins in Kerala and a tragic family secret.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.2/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://nie-images.s3.amazonaws.com/gall_content/2016/5/2016_5$largeimg26_May_2016_172235473.jpg" width="70px" height="100px" alt="A Suitable Boy Cover"></td>
+        <td>A Suitable Boy</td>
+        <td>Vikram Seth</td>
+        <td class="price">₹1,328</td>
+        <td>Epic novel set in post-independence India, following four families.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.3/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/91NrOutxpUL._UF1000,1000_QL80_.jpg" width="70px" height="100px" alt="The Palace of Illusions Cover"></td>
+        <td>The Palace of Illusions</td>
+        <td>Chitra Banerjee Divakaruni</td>
+        <td class="price">₹830</td>
+        <td>A retelling of the Mahabharata from Draupadi's perspective.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.5/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://5.imimg.com/data5/ANDROID/Default/2023/7/328630343/KH/ZE/OB/139116043/product-jpeg-500x500.jpg" width="70px" height="100px" alt="The White Tiger Cover"></td>
+        <td>The White Tiger</td>
+        <td>Aravind Adiga</td>
+        <td class="price">₹913</td>
+        <td>Booker Prize-winning dark satire about class struggle in modern India.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.0/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/519ZQApZ6OL._UF1000,1000_QL80_.jpg" width="70px" height="100px" alt="The Immortals of Meluha Cover"></td>
+        <td>The Immortals of Meluha</td>
+        <td>Amish Tripathi</td>
+        <td class="price">₹747</td>
+        <td>First book in the Shiva Trilogy, reimagining Lord Shiva as a warrior.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.1/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/81XQSqznQaL._UF1000,1000_QL80_.jpg" width="70px" height="100px" alt="Train to Pakistan Cover"></td>
+        <td>Train to Pakistan</td>
+        <td>Khushwant Singh</td>
+        <td class="price">₹664</td>
+        <td>A gripping novel about Partition and its impact on a small village.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.6/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://cdn.kobo.com/book-images/0eaa1e35-b7b4-4ede-b8ca-e98623986470/1200/1200/False/wings-of-fire-book-three-the-hidden-kingdom.jpg" width="70px" height="100px" alt="Wings of Fire Cover"></td>
+        <td>Wings of Fire</td>
+        <td>APJ Abdul Kalam</td>
+        <td class="price">₹581</td>
+        <td>Autobiography of India's beloved "Missile Man" and former President.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.7/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://rukminim3.flixcart.com/blobio/400/400/imr-202006/blobio-imr-202006_ed068b4bbe5e4e4bb683fcbfce77f70a.jpg?q=90" width="70px" height="100px" alt="The Discovery of India Cover"></td>
+        <td>The Discovery of India</td>
+        <td>Jawaharlal Nehru</td>
+        <td class="price">₹1,079</td>
+        <td>Nehru's exploration of India's history and cultural heritage.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.4/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1630508191i/58905550.jpg" width="70px" height="100px" alt="My Experiments with Truth Cover"></td>
+        <td>My Experiments with Truth</td>
+        <td>Mahatma Gandhi</td>
+        <td class="price">₹498</td>
+        <td>Autobiography of Gandhi, detailing his philosophy and struggles.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.8/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://mythoughtsonwritingandreading.wordpress.com/wp-content/uploads/2023/01/themidnightlibrary.jpeg" width="70px" height="100px" alt="The Midnight Library Cover"></td>
+        <td>The Midnight Library</td>
+        <td>Matt Haig</td>
+        <td class="price">₹871</td>
+        <td>International bestseller about a library between life and death.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.2/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj4JqniL3ESZa-OEOCS6cy5_vnXceK3JQ-kgOu9oMe0eVg4dhucRb7oSJgJMB1rI8gsR6DMEZJ6Nr_zn8jWxKBL3-lfgZ3he8PKJh0CLVdBcZMRgkYXIfOrDkMtKgrmYxGQUKPssg/s1600/forest.jpg" width="70px" height="100px" alt="The Forest of Enchantments Cover"></td>
+        <td>The Forest of Enchantments</td>
+        <td>Chitra Banerjee Divakaruni</td>
+        <td class="price">₹995</td>
+        <td>Ramayana retold from Sita's perspective.</td>
+        <td class="rating"><span class="stars">★★★★☆</span> (4.3/5)</td>
+    </tr>
+    <tr>
+        <td><img src="https://m.media-amazon.com/images/I/81kvQ92hrcL.jpg" width="70px" height="100px" alt="The Room on the Roof Cover"></td>
+        <td>The Room on the Roof</td>
+        <td>Ruskin Bond</td>
+        <td class="price">₹539</td>
+        <td>Classic coming-of-age story set in Dehradun.</td>
+        <td class="rating"><span class="stars">★★★★★</span> (4.6/5)</td>
+    </tr>
+</table>
+
+        <section>
+            <h2>Browse by Category</h2>
+            <div class="categories">
+                <a href="#" class="category">Fiction</a>
+                <a href="#" class="category">Non-Fiction</a>
+                <a href="#" class="category">Science Fiction</a>
+                <a href="#" class="category">Biography</a>
+                <a href="#" class="category">Self-Help</a>
+                <a href="#" class="category">Mystery</a>
+                <a href="#" class="category">Romance</a>
+                <a href="#" class="category">Fantasy</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>New Arrivals</h2>
+            <div class="book-card">
+                <div class="book-cover">
+                    <img src="https://m.media-amazon.com/images/I/81gUA3NPH6L._UF1000,1000_QL80_.jpg" alt="Project Hail Mary Cover">
+                </div>
+                <div class="book-info">
+                    <h3>Project Hail Mary</h3>
+                    <p>By Andy Weir</p>
+                    <p class="price">₹1,367</p>
+                    <p>A lone astronaut must save the earth from disaster in this science fiction adventure.</p>
+                    <p class="rating"><span class="stars">★★★★★</span> (4.8/5)</p>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">
+                    <img src="https://m.media-amazon.com/images/I/718Q61qxGSL._UF350,350_QL50_.jpg" alt="The Midnight Library Cover">
+                </div>
+                <div class="book-info">
+                    <h3>The Midnight Library</h3>
+                    <p>By Matt Haig</p>
+                    <p class="price">₹972</p>
+                    <p>Between life and death there is a library where each book represents a different life path.</p>
+                    <p class="rating"><span class="stars">★★★★☆</span> (4.3/5)</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Special Offers</h2>
+            <div class="offers">
+                <div class="offer-card">
+                    <h3>Buy 2 Get 1 Free</h3>
+                    <p>On all paperback fiction titles</p>
+                    <p>Use code:</p>
+                    <div class="offer-code">READMORE</div>
+                </div>
+                <div class="offer-card">
+                    <h3>Free Shipping</h3>
+                    <p>On orders over $25</p>
+                    <p>Automatically applied at checkout</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Bookstore. All rights reserved.</p>
+            <p>Contact us: <a href="mailto:myselfzoro3swords@gmail.com">myselfzoro3swords@gmail.com</a></p>
+            <p>Follow us on social media for daily deals!</p>
+        </div>
+    </footer>
+</body>
+</html>

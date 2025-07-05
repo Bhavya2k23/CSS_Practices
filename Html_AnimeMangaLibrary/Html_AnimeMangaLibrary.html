@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Anime Manga Library</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Theme */
+        :root {
+            /* Colors */
+            --background: hsl(240, 10%, 3.9%);
+            --foreground: hsl(0, 0%, 98%);
+            --primary: hsl(270, 95%, 75%);
+            --primary-foreground: hsl(240, 10%, 3.9%);
+            --secondary: hsl(25, 95%, 53%);
+            --secondary-foreground: hsl(240, 10%, 3.9%);
+            --accent: hsl(200, 95%, 60%);
+            --accent-foreground: hsl(240, 10%, 3.9%);
+            --muted: hsl(240, 5%, 15%);
+            --muted-foreground: hsl(240, 5%, 65%);
+            --border: hsl(240, 6%, 20%);
+            
+            /* Gradients */
+            --anime-gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --hero-gradient: linear-gradient(135deg, var(--background), hsl(240, 30%, 15%));
+            --card-gradient: linear-gradient(145deg, hsl(240, 10%, 6%), hsl(240, 15%, 12%));
+            
+            /* Shadows */
+            --glow-primary: 0 0 30px hsla(270, 95%, 75%, 0.5);
+            --glow-secondary: 0 0 30px hsla(25, 95%, 53%, 0.5);
+            
+            /* Spacing */
+            --radius: 0.75rem;
+            --container-width: 1200px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border-color: var(--border);
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            padding: 5rem 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .btn-primary:hover {
+            background-color: hsl(270, 95%, 65%);
+            box-shadow: var(--glow-primary);
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            border-color: var(--primary);
+            color: var(--primary);
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            transform: scale(1.05);
+        }
+
+        .btn-lg {
+            padding: 0.875rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--foreground);
+        }
+
+        .btn-ghost:hover {
+            color: var(--primary);
+            background-color: hsla(270, 95%, 75%, 0.1);
+        }
+
+        .btn-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            padding: 1rem 0;
+        }
+
+        header.scrolled {
+            background-color: hsla(240, 10%, 3.9%, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: var(--anime-gradient);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--foreground);
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            background: var(--anime-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Navigation */
+        .nav-desktop {
+            display: none;
+        }
+
+        .nav-mobile {
+            position: fixed;
+            top: 5rem;
+            left: 0;
+            right: 0;
+            background-color: var(--background);
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+            transform: translateY(-150%);
+            transition: transform 0.3s ease;
+            z-index: 99;
+        }
+
+        .nav-mobile.open {
+            transform: translateY(0);
+        }
+
+        .nav-mobile .btn {
+            width: 100%;
+            justify-content: flex-start;
+            padding: 0.75rem 1rem;
+        }
+
+        .menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: transparent;
+            border: none;
+            color: var(--foreground);
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .nav-desktop {
+                display: flex;
+                gap: 1.5rem;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .nav-mobile {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--hero-gradient);
+            opacity: 0.8;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 56rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-title span:first-child {
+            background: var(--anime-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @media (min-width: 640px) {
+            .hero-title {
+                font-size: 4.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .hero-actions {
+                flex-direction: row;
+            }
+        }
+
+        /* Genre Section */
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .section-title span {
+            background: var(--anime-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-divider {
+            width: 6rem;
+            height: 0.25rem;
+            background: var(--anime-gradient);
+            margin: 0 auto;
+            border-radius: 9999px;
+        }
+
+        .manga-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .manga-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .manga-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Manga Card */
+        .manga-card {
+            background: var(--card-gradient);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .manga-card:hover {
+            border-color: hsla(270, 95%, 75%, 0.5);
+            transform: scale(1.05);
+            box-shadow: var(--glow-primary);
+        }
+
+        .manga-image {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+        }
+
+        .manga-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .manga-card:hover .manga-image img {
+            transform: scale(1.1);
+        }
+
+        .manga-content {
+            padding: 1.5rem;
+        }
+
+        .manga-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+            margin-bottom: 0.75rem;
+        }
+
+        .manga-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .manga-card:hover .manga-title {
+            color: var(--primary);
+        }
+
+        .manga-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .manga-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .manga-meta-item i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .manga-description {
+            color: var(--muted-foreground);
+            line-height: 1.625;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background-color: hsla(240, 5%, 15%, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .stats-card {
+            background: var(--card-gradient);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            border-color: hsla(270, 95%, 75%, 0.5);
+            transform: scale(1.05);
+            box-shadow: var(--glow-primary);
+        }
+
+        .stats-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-card-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted-foreground);
+        }
+
+        .stats-card-icon {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .stats-card:hover .stats-card-icon {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .stats-card-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-card-detail {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+        }
+
+        .stats-summary {
+            max-width: 42rem;
+            margin: 3rem auto 0;
+        }
+
+        .stats-summary-card {
+            background: var(--card-gradient);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+        }
+
+        .stats-summary-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: var(--anime-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stats-summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .stats-summary-value {
+            font-size: 1.875rem;
+            font-weight: bold;
+        }
+
+        .stats-summary-value.primary {
+            color: var(--primary);
+        }
+
+        .stats-summary-value.secondary {
+            color: var(--secondary);
+        }
+
+        .stats-summary-label {
+            color: var(--muted-foreground);
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 56rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            color: var(--muted-foreground);
+            font-size: 1.125rem;
+        }
+
+        .about-text p:last-child {
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: hsla(240, 5%, 15%, 0.4);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .footer-about {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: var(--anime-gradient);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--foreground);
+            font-weight: bold;
+        }
+
+        .footer-logo-text {
+            font-size: 1.125rem;
+            font-weight: bold;
+            background: var(--anime-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-about-text {
+            color: var(--muted-foreground);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-links-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .footer-link {
+            color: var(--muted-foreground);
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-contact-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted-foreground);
+        }
+
+        .footer-contact-icon {
+            color: var(--primary);
+        }
+
+        .footer-contact-link {
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact-link:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-bottom-text {
+            color: var(--muted-foreground);
+        }
+
+        .footer-heart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            color: var(--muted-foreground);
+        }
+
+        .heart-icon {
+            color: hsl(0, 100%, 50%);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes slide-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-slide-up {
+            animation: slide-up 0.5s ease-out forwards;
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mt-8 {
+            margin-top: 2rem;
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 1rem;
+        }
+
+        .space-y-6 > * + * {
+            margin-top: 1.5rem;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">AM</div>
+                <div class="logo-text">Ultimate Anime Manga Library</div>
+            </div>
+            
+            <nav class="nav-desktop">
+                <button class="btn btn-ghost" onclick="scrollToSection('shonen')">Shonen</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('seinen')">Seinen</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('fantasy')">Fantasy</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('horror')">Horror/Action</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('about')">About</button>
+            </nav>
+            
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="nav-mobile" id="mobileNav">
+            <div class="space-y-2">
+                <button class="btn btn-ghost" onclick="scrollToSection('shonen')">Shonen</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('seinen')">Seinen</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('fantasy')">Fantasy</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('horror')">Horror/Action</button>
+                <button class="btn btn-ghost" onclick="scrollToSection('about')">About</button>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg" style="background-image: url('Background.jpg');"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title animate-slide-up">
+                <span>Ultimate Anime</span><br>
+                <span>Manga Library</span>
+            </h1>
+            
+            <p class="hero-subtitle animate-slide-up delay-200">Discover the greatest manga series from Japan and Korea</p>
+            
+            <div class="hero-actions animate-slide-up delay-400">
+                <button class="btn btn-primary btn-lg" onclick="scrollToSection('shonen')">Explore Collection</button>
+                <button class="btn btn-outline btn-lg" onclick="scrollToSection('about')">Learn More</button>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator animate-float">
+            <button class="btn btn-ghost btn-icon" onclick="scrollToSection('shonen')">
+                <i class="fas fa-chevron-down animate-glow"></i>
+            </button>
+        </div>
+    </section>
+    
+    <!-- Shonen Manga Section -->
+    <section id="shonen" class="py-20 px-4">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Shonen Manga</span>
+                </h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="manga-grid">
+                <div class="animate-slide-up" style="animation-delay: 0s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="OnePiece.jpeg" alt="One Piece">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Shonen</div>
+                            <h3 class="manga-title">One Piece</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Eiichiro Oda</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 1997-Present</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 100+</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">Follow Monkey D. Luffy and his pirate crew in search of the ultimate treasure, the One Piece.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="Naruto.jpeg" alt="Naruto">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Shonen</div>
+                            <h3 class="manga-title">Naruto</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Masashi Kishimoto</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 1999-2014</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 72</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">The story of Naruto Uzumaki, a young ninja who seeks recognition from his peers and dreams of becoming Hokage.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="DragonBall.jpeg" alt="Dragon Ball">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Shonen</div>
+                            <h3 class="manga-title">Dragon Ball</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Akira Toriyama</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 1984-1995</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 42</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">Follow Goku from childhood to adulthood as he trains in martial arts and explores the world in search of the Dragon Balls.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seinen Manga Section -->
+    <section id="seinen" class="py-20 px-4">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Seinen Manga</span>
+                </h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="manga-grid">
+                <div class="animate-slide-up" style="animation-delay: 0s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="Berserk.jpeg" alt="Berserk">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Seinen</div>
+                            <h3 class="manga-title">Berserk</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Kentaro Miura</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 1989-2021</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 41</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">The dark fantasy story of Guts, a lone mercenary, and his quest for revenge in a medieval-inspired world.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="Baki.jpeg" alt="Baki Hanma">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Seinen</div>
+                            <h3 class="manga-title">Baki Hanma</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Keisuke Itagaki</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 1991-1999</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 42</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">The story of Baki Hanma as he trains and fights to surpass his father, Yujiro Hanma, the strongest creature on Earth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Fantasy Manga Section -->
+    <section id="fantasy" class="py-20 px-4">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Fantasy Manga</span>
+                </h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="manga-grid">
+                <div class="animate-slide-up" style="animation-delay: 0s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="DemonSlayer.jpeg" alt="Demon Slayer">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Fantasy</div>
+                            <h3 class="manga-title">Demon Slayer: Kimetsu no Yaiba</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Koyoharu Gotouge</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 2016-2020</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 23</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">Tanjiro Kamado becomes a demon slayer after his family is slaughtered and his sister Nezuko is turned into a demon.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="jujutsukaisen.jpeg" alt="Jujutsu Kaisen">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Fantasy</div>
+                            <h3 class="manga-title">Jujutsu Kaisen</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Gege Akutami</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 2018-Present</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 20+</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">Yuji Itadori swallows a cursed object and becomes host to Ryomen Sukuna, a powerful curse, while attending Jujutsu High.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="Bleach.jpeg" alt="Bleach">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Fantasy</div>
+                            <h3 class="manga-title">Bleach</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Tite Kubo</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 2001-2016</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 74</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">Ichigo Kurosaki becomes a Soul Reaper and defends humans from evil spirits while guiding departed souls to the afterlife.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Horror/Action Manga Section -->
+    <section id="horror" class="py-20 px-4">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Horror/Action Manga</span>
+                </h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="manga-grid">
+                <div class="animate-slide-up" style="animation-delay: 0s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="AoT.jpeg" alt="Attack on Titan">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Horror/Action</div>
+                            <h3 class="manga-title">Attack on Titan</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Hajime Isayama</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 2009-2021</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 34</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">Humanity fights for survival against man-eating Titans in this dark fantasy series following Eren Yeager.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="manga-card">
+                        <div class="manga-image">
+                            <img src="SoloLeveling.jpeg" alt="Solo Leveling">
+                        </div>
+                        <div class="manga-content">
+                            <div class="manga-badge">Horror/Action</div>
+                            <h3 class="manga-title">Solo Leveling</h3>
+                            <div class="manga-meta">
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Author: Chugong (original novel), Jang Sung-rak (artist)</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Published: 2018-2020</span>
+                                </div>
+                                <div class="manga-meta-item">
+                                    <i class="fas fa-book-open"></i>
+                                    <span>Volumes: 14</span>
+                                </div>
+                            </div>
+                            <p class="manga-description">Weakest hunter Sung Jin-Woo gains the ability to level up and becomes one of the most powerful hunters in this webtoon adaptation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Library Statistics</span>
+                </h2>
+                <p class="text-xl text-muted-foreground">Explore our collection by the numbers</p>
+                <div class="section-divider mt-4"></div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stats-card animate-slide-up" style="animation-delay: 0s;">
+                    <div class="stats-card-header">
+                        <div class="stats-card-title">Shonen</div>
+                        <i class="fas fa-chart-line stats-card-icon"></i>
+                    </div>
+                    <div class="stats-card-value">3 Titles</div>
+                    <p class="stats-card-detail">Longest: One Piece (1997-Present)</p>
+                </div>
+                
+                <div class="stats-card animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="stats-card-header">
+                        <div class="stats-card-title">Seinen</div>
+                        <i class="fas fa-chart-bar stats-card-icon"></i>
+                    </div>
+                    <div class="stats-card-value">2 Titles</div>
+                    <p class="stats-card-detail">Longest: Berserk (1989-2021)</p>
+                </div>
+                
+                <div class="stats-card animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="stats-card-header">
+                        <div class="stats-card-title">Fantasy</div>
+                        <i class="fas fa-book-open stats-card-icon"></i>
+                    </div>
+                    <div class="stats-card-value">3 Titles</div>
+                    <p class="stats-card-detail">Longest: Bleach (2001-2016)</p>
+                </div>
+                
+                <div class="stats-card animate-slide-up" style="animation-delay: 0.3s;">
+                    <div class="stats-card-header">
+                        <div class="stats-card-title">Horror/Action</div>
+                        <i class="fas fa-calendar stats-card-icon"></i>
+                    </div>
+                    <div class="stats-card-value">2 Titles</div>
+                    <p class="stats-card-detail">Longest: Attack on Titan (2009-2021)</p>
+                </div>
+            </div>
+            
+            <div class="stats-summary">
+                <div class="stats-summary-card">
+                    <h3 class="stats-summary-title">Total Collection</h3>
+                    <div class="stats-summary-grid">
+                        <div>
+                            <div class="stats-summary-value primary">10</div>
+                            <div class="stats-summary-label">Manga Titles</div>
+                        </div>
+                        <div>
+                            <div class="stats-summary-value secondary">4</div>
+                            <div class="stats-summary-label">Genres</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">
+                    <span>About This Manga Library</span>
+                </h2>
+                <div class="section-divider mb-8"></div>
+                
+                <div class="about-text">
+                    <p>
+                        This digital library showcases some of the most popular and influential manga series from Japan and Korea. 
+                        Our collection spans multiple genres, from action-packed shonen adventures to mature seinen narratives, 
+                        mystical fantasy tales, and thrilling horror stories.
+                    </p>
+                    <p>
+                        Each entry in our library includes detailed information about the series, including author, publication dates, 
+                        volume counts, and engaging summaries to help you discover your next favorite manga.
+                    </p>
+                    <p class="text-sm">
+                        All information is provided for educational purposes only. All manga titles are property of their respective authors and publishers.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">AM</div>
+                        <div class="footer-logo-text">Anime Manga Library</div>
+                    </div>
+                    <p class="footer-about-text">
+                        This digital library showcases some of the most popular and influential manga series from Japan and Korea. All information is provided for educational purposes only.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <h3 class="footer-links-title">Quick Links</h3>
+                    <button class="footer-link" onclick="scrollToSection('shonen')">Shonen Manga</button>
+                    <button class="footer-link" onclick="scrollToSection('seinen')">Seinen Manga</button>
+                    <button class="footer-link" onclick="scrollToSection('fantasy')">Fantasy Manga</button>
+                    <button class="footer-link" onclick="scrollToSection('horror')">Horror/Action</button>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3 class="footer-contact-title">Contact</h3>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope footer-contact-icon"></i>
+                        <a href="mailto:myselfzoro3swords@gmail.com" class="footer-contact-link">myselfzoro3swords@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-bottom-text">© 2025 Anime Manga Library. All rights reserved.</p>
+                <p class="footer-bottom-text">Last updated: <time datetime="2025-05-22">May 22, 2025</time></p>
+                <p class="footer-bottom-text text-sm">Disclaimer: All manga titles are property of their respective authors and publishers.</p>
+                <div class="footer-heart">
+                    <span>Made with</span>
+                    <i class="fas fa-heart heart-icon"></i>
+                    <span>for manga lovers</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Toggle mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('open');
+            menuToggle.innerHTML = mobileNav.classList.contains('open') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // Animate elements on scroll
+        const animateElements = document.querySelectorAll('.animate-slide-up');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.style.animationDelay || '0s';
+                    entry.target.style.animation = `slide-up 0.5s ease-out ${delay} forwards`;
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>

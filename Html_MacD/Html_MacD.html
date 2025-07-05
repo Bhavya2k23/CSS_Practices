@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McDonald's India Menu</title>
+    <style>
+        /* Global Styles with Animation-Friendly Base */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            background-image: url('https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(245, 245, 245, 0.9);
+            overflow-x: hidden;
+        }
+
+        /* Header Animation Styles */
+        header {
+            background-color: #ffc72c;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            animation: headerSlideDown 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transform-origin: top;
+        }
+
+        @keyframes headerSlideDown {
+            0% {
+                transform: translateY(-100%) scaleY(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://www.mcdonalds.com/content/dam/sites/usa/nfl/icons/arches-logo_108x108.jpg');
+            background-size: 100px;
+            background-repeat: repeat;
+            opacity: 0.1;
+            z-index: 0;
+            animation: archRotate 60s linear infinite;
+        }
+
+        @keyframes archRotate {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 1000px; }
+        }
+
+        h1 {
+            margin: 0;
+            padding: 10px 0;
+            position: relative;
+            animation: logoBounce 1s ease 0.5s both;
+        }
+
+        @keyframes logoBounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        h1 img {
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        h1 img:hover {
+            transform: rotate(-5deg) scale(1.05);
+            filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.4));
+        }
+
+        /* Navigation Animation Styles */
+        nav {
+            margin-top: 15px;
+            padding: 10px 0;
+            background-color: #da291c;
+            position: relative;
+            z-index: 1;
+            animation: navFadeIn 1s ease 0.8s both;
+        }
+
+        @keyframes navFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #ffc72c;
+            color: #da291c;
+            border-radius: 4px;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #ffc72c;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 60%;
+        }
+
+        /* Main Content Animation Styles */
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            animation: sectionFadeIn 0.6s forwards;
+        }
+
+        @keyframes sectionFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+
+        section:hover::before {
+            transform: scale(1.2) rotate(10deg);
+            opacity: 0.15;
+        }
+
+        /* Staggered Section Animations */
+        section:nth-child(1) { animation-delay: 0.2s; transform: translateY(30px); }
+        section:nth-child(2) { animation-delay: 0.4s; transform: translateY(30px); }
+        section:nth-child(3) { animation-delay: 0.6s; transform: translateY(30px); }
+        section:nth-child(4) { animation-delay: 0.8s; transform: translateY(30px); }
+        section:nth-child(5) { animation-delay: 1.0s; transform: translateY(30px); }
+        section:nth-child(6) { animation-delay: 1.2s; transform: translateY(30px); }
+
+        h2 {
+            color: #da291c;
+            border-bottom: 2px solid #ffc72c;
+            padding-bottom: 10px;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        section:hover h2 {
+            letter-spacing: 1px;
+            color: #c8231a;
+        }
+
+        /* Menu Item Animation Styles */
+        article {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed #ddd;
+            position: relative;
+            z-index: 1;
+            align-items: center;
+            transition: all 0.3s ease;
+            transform-origin: left;
+        }
+
+        article:hover {
+            background-color: rgba(255, 199, 44, 0.05);
+            border-bottom-color: #ffc72c;
+            transform: scale(1.01);
+        }
+
+        .item-info {
+            flex: 1;
+            padding-right: 20px;
+            transition: all 0.3s ease;
+        }
+
+        article:hover .item-info {
+            padding-right: 25px;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .item-image:hover {
+            transform: scale(1.15) rotate(2deg) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        article h3 {
+            color: #333;
+            margin: 0 0 5px 0;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        article:hover h3 {
+            color: #da291c;
+        }
+
+        article h3::before {
+            content: "•";
+            color: #ffc72c;
+            margin-right: 10px;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+        }
+
+        article:hover h3::before {
+            transform: scale(1.3);
+            color: #da291c;
+        }
+
+        article p {
+            margin: 5px 0;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        article:hover p {
+            color: #444;
+        }
+
+        .price {
+            color: #da291c;
+            font-weight: bold;
+            font-size: 1.2em;
+            min-width: 100px;
+            text-align: right;
+            background: #fff9e6;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid #ffc72c;
+            transition: all 0.3s ease;
+        }
+
+        article:hover .price {
+            background: #ffc72c;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 3px 8px rgba(218, 41, 28, 0.2);
+        }
+
+        /* Footer Animation Styles */
+        footer {
+            background-color: #27251f;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            position: relative;
+            animation: footerFadeIn 1s ease 1.4s both;
+        }
+
+        @keyframes footerFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-image: url('https://www.mcdonalds.com/content/dam/sites/usa/nfl/pattern/arches-pattern.png');
+            background-size: contain;
+            opacity: 0.3;
+            animation: archSlide 30s linear infinite;
+        }
+
+        @keyframes archSlide {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 0; }
+        }
+
+        footer p {
+            margin: 10px 0;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        footer:hover p {
+            transform: scale(1.02);
+        }
+
+        /* Special Badges with Animation */
+        .veg, .non-veg {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-left: 10px;
+            position: relative;
+            top: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .veg {
+            background-color: green;
+            border: 1px solid darkgreen;
+        }
+
+        .non-veg {
+            background-color: red;
+            border: 1px solid darkred;
+        }
+
+        article:hover .veg {
+            transform: scale(1.3) rotate(15deg);
+            box-shadow: 0 0 5px green;
+        }
+
+        article:hover .non-veg {
+            transform: scale(1.3) rotate(15deg);
+            box-shadow: 0 0 5px red;
+        }
+
+        /* Responsive Design with Animation Adjustments */
+        @media (max-width: 768px) {
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 10px;
+                animation: mobileNavFadeIn 1s ease 0.8s both;
+            }
+
+            @keyframes mobileNavFadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px) scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            nav a {
+                margin: 5px;
+                padding: 8px 10px;
+                font-size: 0.9em;
+                animation: none !important;
+            }
+
+            section {
+                animation: mobileSectionFadeIn 0.6s forwards !important;
+                transform: translateY(20px) !important;
+            }
+
+            @keyframes mobileSectionFadeIn {
+                to {
+                    opacity: 1;
+                    transform: translateY(0) !important;
+                }
+            }
+
+            article {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .item-info {
+                padding-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .price {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .item-image {
+                margin-bottom: 15px;
+                order: -1;
+                animation: itemImageFloat 3s ease-in-out infinite alternate;
+            }
+
+            @keyframes itemImageFloat {
+                from { transform: translateY(0); }
+                to { transform: translateY(-10px); }
+            }
+        }
+
+        /* Floating Arches Animation */
+        .floating-arch {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            background-image: url('https://www.mcdonalds.com/content/dam/sites/usa/nfl/icons/arches-logo_108x108.jpg');
+            background-size: contain;
+            opacity: 0.1;
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .arch1 {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .arch2 {
+            top: 30%;
+            right: 8%;
+            animation-delay: 3s;
+        }
+
+        .arch3 {
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-20px) rotate(5deg) scale(1.05); }
+            50% { transform: translateY(0) rotate(0deg) scale(1); }
+            75% { transform: translateY(-15px) rotate(-5deg) scale(1.03); }
+            100% { transform: translateY(0) rotate(0deg) scale(1); }
+        }
+
+        /* Scrolling Animation Effects */
+        .scroll-animate {
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .scroll-animate.animate {
+            opacity: 1;
+        }
+
+        /* Pulse Animation for Special Items */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffc72c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 0.5s ease 2s forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            width: 150px;
+            animation: loaderBounce 1s infinite alternate;
+        }
+
+        @keyframes loaderBounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        .loader-text {
+            color: #da291c;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: textPulse 1.5s infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader">
+        <div class="loader-content">
+            <img src="https://www.mcdonalds.com/content/dam/sites/usa/nfl/logo/arches-logo_108x108.jpg" alt="Loading" class="loader-logo">
+            <div class="loader-text">Loading Menu...</div>
+        </div>
+    </div>
+
+    <!-- Floating Golden Arches -->
+    <div class="floating-arch arch1"></div>
+    <div class="floating-arch arch2"></div>
+    <div class="floating-arch arch3"></div>
+
+    <header>
+        <h1>
+            <img src="https://www.mcdonalds.com/content/dam/sites/usa/nfl/logo/arches-logo_108x108.jpg" alt="McDonald's India" width="200">
+        </h1>
+        <nav>
+            <a href="#burgers">Burgers</a> | 
+            <a href="#chicken">Chicken</a> | 
+            <a href="#fries">Fries & Sides</a> | 
+            <a href="#drinks">Drinks</a> | 
+            <a href="#desserts">Desserts</a> | 
+            <a href="#breakfast">Breakfast</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="burgers">
+            <h2>Burgers</h2>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Maharaja Mac® <span class="non-veg"></span></h3>
+                    <p>Two chicken or veg patties, special sauce, lettuce, cheese, onions on sesame seed bun</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Maharaja Mac">
+                <p class="price">219</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>McAloo Tikki Burger <span class="veg"></span></h3>
+                    <p>Spiced potato and peas patty with special Indian spices</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="McAloo Tikki">
+                <p class="price">35</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>McVeggie <span class="veg"></span></h3>
+                    <p>Vegetable patty with lettuce and mayo</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="McVeggie">
+                <p class="price">125</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>McSpicy Paneer <span class="veg"></span></h3>
+                    <p>Spicy paneer patty with lettuce and sauces</p>
+                </div>
+                <img class="item-image" src="https://mcdonaldsblog.in/wp-content/uploads/2016/06/mcspicy-paneer-1-1.jpg" alt="McSpicy Paneer">
+                <p class="price">175</p>
+            </article>
+        </section>
+
+        <section id="chicken">
+            <h2>Chicken</h2>
+            
+            <article>
+                <div class="item-info">
+                    <h3>McSpicy Chicken <span class="non-veg"></span></h3>
+                    <p>Spicy chicken patty with lettuce and mayo</p>
+                </div>
+                <img class="item-image" src="https://3rdworldgeeks.com/wp-content/uploads/2013/08/official-mcspicy.jpg" alt="McSpicy Chicken">
+                <p class="price">189</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Chicken McNuggets® <span class="non-veg"></span></h3>
+                    <p>4pc, 6pc or 9pc with your choice of dipping sauce</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1562967914-608f82629710?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chicken McNuggets">
+                <p class="price">4pc 149 | 6pc 199 | 9pc 249</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Chicken McGrill <span class="non-veg"></span></h3>
+                    <p>Grilled chicken burger with Indian spices</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Chicken McGrill">
+                <p class="price">99</p>
+            </article>
+        </section>
+
+        <section id="fries">
+            <h2>Fries & Sides</h2>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Medium French Fries <span class="veg"></span></h3>
+                    <p>Classic McDonald's fries</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="French Fries">
+                <p class="price">99</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Masala Wedges <span class="veg"></span></h3>
+                    <p>Potato wedges with Indian spices</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1629115916087-7e8c114a24ed?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Masala Wedges">
+                <p class="price">129</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Cheesy Fries <span class="veg"></span></h3>
+                    <p>Fries topped with cheese sauce</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1585109649139-366815a0d713?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cheesy Fries">
+                <p class="price">149</p>
+            </article>
+        </section>
+
+        <section id="drinks">
+            <h2>Drinks</h2>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Coca-Cola® <span class="veg"></span></h3>
+                    <p>Medium</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1554866585-cd94860890b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Coca-Cola">
+                <p class="price">65</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Fanta® <span class="veg"></span></h3>
+                    <p>Medium</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1629203851122-3726ecdf080e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Fanta">
+                <p class="price">65</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Iced Tea <span class="veg"></span></h3>
+                    <p>Refreshing lemon iced tea</p>
+                </div>
+                <img class="item-image" src="https://www.errenskitchen.com/wp-content/uploads/2014/08/lemon-Iced-Tea.jpg" alt="Iced Tea">
+                <p class="price">75</p>
+            </article>
+        </section>
+
+        <section id="desserts">
+            <h2>Desserts</h2>
+            
+            <article>
+                <div class="item-info">
+                    <h3>McFlurry® Oreo <span class="veg"></span></h3>
+                    <p>Vanilla soft serve with Oreo cookies</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1576186726115-4d51596775d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="McFlurry Oreo">
+                <p class="price">99</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Hot Chocolate Fudge Sundae <span class="veg"></span></h3>
+                    <p>Vanilla soft serve with chocolate fudge</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1571167366136-b57e07761625?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Hot Chocolate Fudge">
+                <p class="price">69</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Apple Pie <span class="veg"></span></h3>
+                    <p>Crispy fried apple pie</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1562007908-17c67e878c88?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Apple Pie">
+                <p class="price">49</p>
+            </article>
+        </section>
+
+        <section id="breakfast">
+            <h2>Breakfast</h2>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Masala Egg Burger <span class="non-veg"></span></h3>
+                    <p>Egg patty with Indian spices</p>
+                </div>
+                <img class="item-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp8SA6yhoJO-iG_Gb98H0lyWLCHXAd80qBug&s" alt="Masala Egg Burger">
+                <p class="price">59</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Hot Cakes <span class="veg"></span></h3>
+                    <p>Pancakes with maple syrup</p>
+                </div>
+                <img class="item-image" src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Hot Cakes">
+                <p class="price">149</p>
+            </article>
+            
+            <article>
+                <div class="item-info">
+                    <h3>Aloo Paratha Wrap <span class="veg"></span></h3>
+                    <p>Stuffed paratha wrap with potato filling</p>
+                </div>
+                <img class="item-image" src="https://img.freepik.com/premium-photo/tasty-aloo-paratha-kathi-roll-white-background-popular-street-food-aloo-paratha-image_1020697-123750.jpg" alt="Aloo Paratha Wrap">
+                <p class="price">99</p>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>Prices inclusive of GST. Prices may vary by location.</p>
+        <p>©2025 McDonald's India. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Simple script to handle scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Remove loader after animation completes
+            setTimeout(function() {
+                document.querySelector('.loader').style.display = 'none';
+            }, 2500);
+
+            // Scroll animation observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
